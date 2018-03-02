@@ -1,0 +1,17 @@
+{
+  "bindings": [
+    {
+      "type": "EventGridTrigger",
+      "name": "myEvent",
+      "direction": "in"
+    },
+    {
+      "type": "blob",
+      "name": "myBlob",
+      "direction": "in",
+      "path": "{data.url}",
+      "connection": "azuremvpsummitdemo_STORAGE"
+    }
+  ],
+  "disabled": false
+}
