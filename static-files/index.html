@@ -53,6 +53,8 @@
     <script type="text/javascript">
 
         var blobUri = 'https://azuremvpsummitdemo.blob.core.windows.net/';
+        var containerName = 'photography';
+        var imageDirectory = 'images/';
         var blobService = AzureStorage.createBlobServiceWithSas(blobUri, '?sv=2015-12-11&si=photography-mvpdemo&sr=c&sig=DFc9FVzGxQcO1tnMvW4CC82Pn%2FKk%2BOBx0G2Fdg5oAl0%3D');
         var finishedOrError = false;
 
@@ -63,7 +65,7 @@
             var customBlockSize = file.size > 33554432 ? 4194304 : 524288;
             blobService.singleBlobPutThresholdInBytes = customBlockSize;
 
-            var speedSummary = blobService.createBlockBlobFromBrowserFile('photography', 'images/' + Math.random() + file.name, file, { blockSize: customBlockSize }, function (error, result, response) {
+            var speedSummary = blobService.createBlockBlobFromBrowserFile(containerName, imageDirectory + Math.random() + file.name, file, { blockSize: customBlockSize }, function (error, result, response) {
                 finishedOrError = true;
                 if (error) {
                     alert(error);
@@ -75,7 +77,7 @@
         }
 
         function listBlobs() {
-            blobService.listBlobsSegmentedWithPrefix('photography', 'images/', null, {include : 'metadata'}, function(error, results) {
+            blobService.listBlobsSegmentedWithPrefix(containerName, imageDirectory, null, {include : 'metadata'}, function(error, results) {
                 if (error) {
 
                     // List blobs error
@@ -91,7 +93,7 @@
                         if (blob.metadata) {
                             metadata = blob.metadata.caption;
                         }
-                        var uri = blobUri + 'photography/' + blob.name;
+                        var uri = blobUri + containerName + '/' + blob.name;
                         html += '<div class="column size-1of4"><div class="item"><div class="animate-box bounceIn animated"><a href="' + uri + '" class="image-popup fh5co-board-img"><img src="' + uri + '" ></a></div><div class="fh5co-desc">' + metadata + '</div></div></div>';
                     }
                     grid = document.getElementById('fh5co-board');
@@ -132,8 +134,9 @@
             <li class="active"><a href="index.html">Home</a></li>
             <li><a href="https://azure.microsoft.com/en-us/services/storage/blobs/">About Blobs</a></li>
             <li><a href="https://azure.microsoft.com/en-us/pricing/details/storage/blobs/">Blobs Pricing</a></li>
+            <br />
+            <input type='file' id='file' size="10" name='file' onChange="upload();" /><span id="result"></span>
         </ul>
-        <h3 class="fh5co-lead">Azure Storage</h3>
     </div>
     <header id="fh5co-header" role="banner">
         <div class="container">
@@ -164,13 +167,6 @@
         <div class="container">
             <div class="row row-padded">
                 <div class="col-md-12 text-center">
-                    <center>
-                        <input type='file' id='file' name='file' onChange="upload();" /><span id="result"></span>
-                        <br>
-                        <br>
-                        <input type='button' id='refresh' name='refresh' value='Refresh' onClick="listBlobs();" />
-                        <br>
-                    </center>
                     <p><small><br>&copy; Hydrogen Free HTML5 Template. All Rights Reserved. <br>Designed by: <a href="http://freehtml5.co/" target="_blank">FREEHTML5.co</a><br>Changes made by Michael Hauss, associated with Microsoft.</small></p>
                 </div>
             </div>
