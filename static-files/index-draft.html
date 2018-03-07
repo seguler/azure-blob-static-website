@@ -52,10 +52,10 @@
     <script src="js/azure-storage.blob.min.js"></script>
     <script type="text/javascript">
 
-        var blobUri = 'https://staticwebsitedemo.blob.preprod.core.windows.net/';
-        var containerName = 'web';
+        var blobUri = 'https://azuremvpsummitdemo.blob.core.windows.net/';
+        var containerName = 'photography';
         var imageDirectory = 'images/';
-        var blobService = AzureStorage.createBlobServiceWithSas(blobUri, '?sv=2017-04-17&sig=lrZ9gEz6ToBak5MuT8C9J27ldvSXN817%2BUR%2Fco4d0zg%3D&st=2018-03-06T21%3A59%3A53Z&se=2018-03-08T21%3A59%3A53Z&srt=sco&ss=bfqt&sp=racupwdl');
+        var blobService = AzureStorage.createBlobServiceWithSas(blobUri, '?sv=2015-12-11&si=photography-mvpdemo&sr=c&sig=DFc9FVzGxQcO1tnMvW4CC82Pn%2FKk%2BOBx0G2Fdg5oAl0%3D');
         var finishedOrError = false;
 
         function upload() {
@@ -93,8 +93,8 @@
                         if (blob.metadata) {
                             metadata = blob.metadata.caption;
                         }
-                        var blobPath = '/' + blob.name;
-                        html += '<div class="column size-1of4"><div class="item"><div class="animate-box bounceIn animated"><a href="' + blobPath + '" class="image-popup fh5co-board-img"><img src="' + blobPath + '" ></a></div><div class="fh5co-desc">' + metadata + '</div></div></div>';
+                        var uri = blobUri + containerName + '/' + blob.name;
+                        html += '<div class="column size-1of4"><div class="item"><div class="animate-box bounceIn animated"><a href="' + uri + '" class="image-popup fh5co-board-img"><img src="' + uri + '" ></a></div><div class="fh5co-desc">' + metadata + '</div></div></div>';
                     }
                     grid = document.getElementById('fh5co-board');
                     grid.innerHTML = html;
