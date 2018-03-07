@@ -288,4 +288,4 @@ __pycache__/
 *.xsd.cs
 
 # Images
-static-files/images/*
+/static-files/images/*
